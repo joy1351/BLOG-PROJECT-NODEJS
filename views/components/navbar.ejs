@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg">
+  <a class="navbar-brand ml-5" href="/">Blog</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav ml-auto mr-5">
+        <% if(user){ %>
+            <li class="nav-item d-flex align-items-center justify-content-center">
+                <p class="text-white fw-bold my-0 text-capitalize ml-2 mr-4">Welcome <span class="text-warning font-weight-bold"><%= user.name %></span></p>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-light mx-2" href="/">Home</a>
+            </li>
+        <li class="nav-item">
+            <a class="btn btn-success mx-2" href="/articles/new">New Post</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-danger mx-2" href="/auth/logout">Logout</a>
+        </li>
+        <% }else { %>
+            <li class="nav-item active">
+              <a class="btn btn-light mx-2" href="/">Home</a>
+            </li>
+        <li class="nav-item mr-2">
+            <a class="btn btn-light" href="/auth/login">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-outline-light" href="/auth/register">Register</a>
+        </li>
+        <% } %>
+    </ul>
+  </div>
+</nav>
