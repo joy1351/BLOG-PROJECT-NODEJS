@@ -1,25 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Blog</title>
-</head>
-<body>
-    <div class="container">
-    <h1 class="mb-1"><%= article.title %></h1>
-    <div class="text-muted mb-2">
-        <%= article.createdAt.toLocaleDateString() %>
-      </div>
 
-      <a href="/" class="btn btn-secondary">All Articles</a>
-      <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
-      <div>
-        <%- article.sanitizeHtml %>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blog</title>
+  <link rel="stylesheet" href="/css/show.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class=" my-5 d-flex align-items-center justify-content-between col-md-12">
+        <h1 class="mb-1">
+          <%= article.title %>
+        </h1>
+        <div>
+
+          <a href="/" class="btn btn-dark">< Go Back</a>
+          
+          <% if(user && user.id==article.user._id){ %>
+            <a href="/articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
+            <% } %>
+        </div>
       </div>
-    </div>
+      <div class="d-flex my-5 w-100 col-md-12 align-items-center justify-content-between mb-2">
+                  <!-- post owner  -->
+        <div class="profile d-flex align-items-center">
+          <img src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="" class="rounded-circle profile" width="40" height="40">
+          <div class="profile-name ml-2">
+            <h6 class="m-0">
+              <%= article.user.name %>
+            </h6>
+            <small class="text-muted">
+              <%= article.user.email %> </small>
+              </div>  
+        </div>
+        <div >
+          <% if(user && user.id == article.user._id){ %>
+
+              <span class="badge badge-pill badge-success">
+                Owner
+              </span>
+
+          <% }%>
+          <span class="badge ml-3 badge-pill badge-primary small">
+            <%= article.createdAt.toLocaleDateString() %>
+          </span>
+        </div>
+      </div>
+          <div class="col-md-12 my-5">
+            <%- article.sanitizedHtml %>
+          </div>
+
+        </div>
+  </div>
 </body>
+
 </html>

@@ -1,39 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Blog</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blog</title>
+  <link rel="stylesheet" href="/css/index.css">
 </head>
+
 <body>
   <% if (message.success_msg) { %>
-          <div class="alert alert-success position-fixed top-5 right-5 fade show" role="alert">
-              <%= message.success_msg %>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-      <% } %>
+    <div class="alert alert-success position-fixed top-5 right-5 fade show" role="alert">
+      <%= message.success_msg %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <% } %>
       <%- include('../components/navbar') %>
-    <div class="container">
-        <% articles.forEach(article => { %>
-            <div class="card mt-4">
+        <div class="container-fluid px-5">
+          <div class="row py-4">
+          <% articles.forEach(article=> { %>
+            <div class="card col-md-3 mx-auto mt-4">
               <div class="card-body">
-                <h4 class="card-title"><%= article.title %></h4>
-                <div class="card-subtitle text-muted mb-2">
-                  <%= article.createdAt.toLocaleDateString() %>
+                <div class="d-flex align-items-center justify-content-between">
+                  <h4 class="card-title">
+                    <%= article.title %>
+                  </h4>
+                  <% if(user && user.id == article.user._id){ %>
+
+                      <span class="badge badge-pill badge-success">
+                        Owner
+                      </span>
+
+                  <% }%>
                 </div>
-                <div class="card-text mb-2"><%= article.description %></div>
+                <div class="d-flex my-3 w-100 align-items-center justify-content-between mb-2">
+                  <!-- post owner  -->
+                  <div class="profile d-flex align-items-center">
+                    <img src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="" class="rounded-circle" width="40" height="40">
+                    <div class="profile-name ml-2">
+                      <h6 class="m-0">
+                        <%= article.user.name %>
+                      </h6>
+                      <small class="text-muted">
+                        <%= article.user.email %> </small>
+                        </div>  
+                  </div>
+                  <span class="badge badge-pill badge-primary small">
+                    <%= article.createdAt.toLocaleDateString() %>
+                  </span>
+                </div>
+                <div class="card-text my-3 mb-2">
+                  <%= article.description.slice(0,101) %>...
+                </div>
+              </div>
+              <div class="card-footer border-0 mb-3 bg-white">
+
                 <a href="articles/<%= article.slug %>" class="btn btn-primary">Read More</a>
-                <a href="articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
-                <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
-                  <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
+                <% if(user && user.id==article.user._id){ %>
+                  <a href="articles/edit/<%= article.id %>" class="btn btn-info">Edit</a>
+                  <form action="/articles/<%= article.id %>?_method=DELETE" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                  <% } %>
+                </div>
             </div>
-        </div>
-       <% }) %>
+            <% }) %>
+          </div>
+          </div>
 </body>
+
 </html>
